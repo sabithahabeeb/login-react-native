@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
@@ -9,6 +9,7 @@ function Signup({ navigation }) {
     return (
         <SafeAreaView>
             <View style={styles.container}>
+                <ScrollView>
                 <View style={styles.box}>
                     <View style={styles.header} >
                         <MaterialCommunityIcons name="arrow-left" color={'white'} size={32}  onPress={()=>navigation.navigate("login")} />
@@ -29,7 +30,7 @@ function Signup({ navigation }) {
                         </View>
                     </View>
                 </View>
-
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     },
     login: {
         width: '160%',
-        height: '110%',
+        height: '80%',
         backgroundColor: '#e5eae7',
         marginTop: 80,
         borderWidth: 4,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
@@ -8,8 +8,9 @@ function Login({ navigation }) {
     return (
         <SafeAreaView>
             <View style={styles.container}>
+                <ScrollView>
                 <View style={styles.box}>
-                    <Text style={styles.text} >Company Logo</Text>
+                    <View><Text style={styles.text} >Company Logo</Text></View>
 
                     <View style={styles.login}>
                         <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 40 }} >Login</Text>
@@ -32,7 +33,7 @@ function Login({ navigation }) {
 
                     </View>
                 </View>
-
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     },
     login: {
         width: '160%',
-        height: '110',
+        height: '200%',
         backgroundColor: '#e5eae7',
         marginTop: 80,
         borderWidth: 4,
