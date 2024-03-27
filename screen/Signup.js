@@ -15,7 +15,6 @@ function Signup({ navigation }) {
                         <MaterialCommunityIcons name="arrow-left" color={'white'} size={32}  onPress={()=>navigation.navigate("login")} />
                         <Text style={styles.text} > Sign Up</Text>
                     </View>
-
                     <View style={styles.login}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly', marginTop: 20 }}>
                             <TextInput placeholder='Name' style={styles.textinput} />
@@ -52,12 +51,9 @@ const styles = StyleSheet.create({
         padding: 50,
         margin: 30
     },
-
-
     text: {
         fontSize: 40,
         color: 'white',
-
         paddingTop: 10,
         paddingLeft: 20,
         paddingRight: 20,
@@ -73,8 +69,6 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderTopLeftRadius: 150,
         alignItems: 'center',
-
-
     },
     textinput: {
         width: 250,
@@ -103,7 +97,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         
       },
-    
-
 })
 export default Signup
