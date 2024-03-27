@@ -1,10 +1,42 @@
-import React from 'react'
-import { Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { Alert, Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-
+const BASE_URL = 'https://api.dev.returnredirect.com'
 
 function Login({ navigation }) {
+    const [email,setemail] = useState('')
+    const [password,setPassword] = useState('')
+
+    const handleLogin = async ()=>{
+        if (!email || !password) {
+            Alert.alert("Please fill in all fields");
+            return;
+        }
+    
+        try{
+            const response = await fetch(`${BASE_URL}/api/1.0/auth/login`,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    email,
+                    password
+                })
+            })
+            if(response){
+                Alert.alert("login successfull")
+                console.log("login successfull");
+                setemail('')
+                setPassword('')
+            }else{
+                console.log("login faild");
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
     return (
         <SafeAreaView>
             <View style={styles.container}>
@@ -15,11 +47,11 @@ function Login({ navigation }) {
                     <View style={styles.login}>
                         <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 40 }} >Login</Text>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                            <TextInput placeholder='Email' style={styles.textinput} />
-                            <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} />
+                            <TextInput placeholder='Email' style={styles.textinput} value={email} onChangeText={setemail} />
+                            <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} value={password} onChangeText={setPassword} />
                         </View>
                       <View>
-                            <Pressable style={styles.button} >
+                            <Pressable style={styles.button} onPress={handleLogin} >
                                 <Text style={{ color: 'white', fontSize: 15 }}>Login</Text>
                             </Pressable>
                             <Text style={{textAlign:'center',paddingTop:10}}>or Login with</Text>

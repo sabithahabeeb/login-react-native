@@ -1,10 +1,57 @@
-import React from 'react'
-import { Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { Alert, Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
+const BASE_URL = 'https://api.dev.returnredirect.com'
 
 
 
 function Signup({ navigation }) {
+    const [name,setname] = useState('')
+    const [email,setemail] = useState('')
+    const [phoneNumber,setPhoneNumber] = useState('')
+    const [password,setPassword] = useState('')
+    const [confirmPasswrod,setConfirmPassword] = useState('')
+
+    const handleSignup = async ()=>{
+        if (!name ||!email || !phoneNumber || !password || !confirmPasswrod) {
+            Alert.alert("Please fill in all fields");
+            return;
+        }
+        if (password !== confirmPasswrod) {
+            Alert.alert("Passwords do not match");
+            return;
+        }
+        try{
+           const response = await fetch(`${BASE_URL}/api/1.0/auth/signup`,{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'device-id': 'd12121',
+                'app-type': 'web'
+            },
+            body:JSON.stringify({
+                name,
+                email,
+                phoneNumber,
+                password,
+                confirmPasswrod
+            })
+           })
+           const data = await response.json()
+           if(response){
+            navigation.navigate("login")
+            console.log("signup succesful");
+            
+           }else{
+            console.log("fail");
+           }
+        }catch(err){
+            console.log(err);
+        }
+    }
     
     return (
         <SafeAreaView>
@@ -17,12 +64,13 @@ function Signup({ navigation }) {
                     </View>
                     <View style={styles.login}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly', marginTop: 20 }}>
-                            <TextInput placeholder='Name' style={styles.textinput} />
-                            <TextInput placeholder='Email' style={styles.textinput} />
-                            <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} />
-                            <TextInput placeholder='ConfirmPassword' style={styles.textinput} secureTextEntry={true} />
+                            <TextInput placeholder='Name' style={styles.textinput} value={name} onChangeText={setname} />
+                            <TextInput placeholder='Email' style={styles.textinput} value={email} onChangeText={setemail} />
+                            <TextInput placeholder='PhoneNumber' style={styles.textinput} value={phoneNumber} onChangeText={setPhoneNumber} />
+                            <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} value={password} onChangeText={setPassword} />
+                            <TextInput placeholder='ConfirmPassword' style={styles.textinput} secureTextEntry={true} value={confirmPasswrod} onChangeText={setConfirmPassword} />
                             {/* <Button title='Signup' color={'black'} style={{ padding: 80, fontSize: 40 }}  ></Button> */}
-                            <Pressable style={styles.button} >
+                            <Pressable style={styles.button} onPress={handleSignup} >
                                 <Text style={{color:'white',fontSize:15}}>Sign Up</Text>
                             </Pressable>
                             <Text>You have an account?<Text style={{textDecorationLine:'underline'}} onPress={() => navigation.navigate("login")}>Login</Text></Text>
