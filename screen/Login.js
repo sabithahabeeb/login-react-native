@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react'
 import { Alert, Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -7,6 +8,7 @@ const BASE_URL = 'https://api.dev.returnredirect.com'
 function Login({ navigation }) {
     const [email,setemail] = useState('')
     const [password,setPassword] = useState('')
+
 
     const handleLogin = async ()=>{
         if (!email || !password) {
@@ -30,6 +32,12 @@ function Login({ navigation }) {
                 console.log("login successfull");
                 setemail('')
                 setPassword('')
+                AsyncStorage.removeItem('showGetStarted').then(()=>{
+                    console.log("item removed");
+                    navigation.navigate('ui')
+                }).catch(err=>{
+                    console.log(err);
+                })
             }else{
                 console.log("login faild");
             }
