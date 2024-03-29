@@ -73,7 +73,7 @@ function Signup({ navigation }) {
                             <Pressable style={styles.button} onPress={handleSignup} >
                                 <Text style={{color:'white',fontSize:15}}>Sign Up</Text>
                             </Pressable>
-                            <Text>You have an account?<Text style={{textDecorationLine:'underline'}} onPress={() => navigation.navigate("login")}>Login</Text></Text>
+                            <Text>You have an account?<Text style={{textDecorationLine:'underline',color:'red'}} onPress={() => navigation.navigate("login")}>Login</Text></Text>
                         </View>
                     </View>
                 </View>

@@ -6,73 +6,73 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const BASE_URL = 'https://api.dev.returnredirect.com'
 
 function Login({ navigation }) {
-    const [email,setemail] = useState('')
-    const [password,setPassword] = useState('')
+    const [email, setemail] = useState('')
+    const [password, setPassword] = useState('')
 
 
-    const handleLogin = async ()=>{
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert("Please fill in all fields");
             return;
         }
-    
-        try{
-            const response = await fetch(`${BASE_URL}/api/1.0/auth/login`,{
-                method:'POST',
-                headers:{
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/1.0/auth/login`, {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json'
                 },
-                body:JSON.stringify({
+                body: JSON.stringify({
                     email,
                     password
                 })
             })
-            if(response){
+            if (response) {
                 Alert.alert("login successfull")
                 console.log("login successfull");
                 setemail('')
                 setPassword('')
-                AsyncStorage.removeItem('showGetStarted').then(()=>{
-                    console.log("item removed");
-                    navigation.navigate('ui')
-                }).catch(err=>{
-                    console.log(err);
-                })
-            }else{
+                // AsyncStorage.removeItem('showGetStarted').then(() => {
+                //     console.log("item removed");
+                //     navigation.navigate('ui')
+                // }).catch(err => {
+                //     console.log(err);
+                // })
+            } else {
                 console.log("login faild");
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
     return (
-        <SafeAreaView>
+        <SafeAreaView >
             <View style={styles.container}>
                 <ScrollView>
-                <View style={styles.box}>
-                    <View><Text style={styles.text} >Company Logo</Text></View>
+                    <View style={styles.box}>
+                        <Text style={styles.text} >Company Logo</Text>
 
-                    <View style={styles.login}>
-                        <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 40 }} >Login</Text>
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                            <TextInput placeholder='Email' style={styles.textinput} value={email} onChangeText={setemail} />
-                            <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} value={password} onChangeText={setPassword} />
-                        </View>
-                      <View>
-                            <Pressable style={styles.button} onPress={handleLogin} >
-                                <Text style={{ color: 'white', fontSize: 15 }}>Login</Text>
-                            </Pressable>
-                            <Text style={{textAlign:'center',paddingTop:10}}>or Login with</Text>
-                            <View style={styles.header} >
-                                <AntDesign style={{ margin: 20 }} name="facebook-square" color={'black'} size={22} />
-                                <AntDesign style={{ margin: 20 }} name="instagram" color={'black'} size={22} />
-                                <AntDesign style={{ margin: 20 }} name="twitter" color={'black'} size={22} />
+                        <View style={styles.login}>
+                            <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 40 }} >Login</Text>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                <TextInput placeholder='Email' style={styles.textinput} value={email} onChangeText={setemail} />
+                                <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} value={password} onChangeText={setPassword} />
                             </View>
-                            <Text>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
-                      </View>
+                            <View>
+                                <Pressable style={styles.button} onPress={handleLogin} >
+                                    <Text style={{ color: 'white', fontSize: 15 }}>Login</Text>
+                                </Pressable>
+                                <Text style={{ textAlign: 'center', paddingTop: 10 }}>or Login with</Text>
+                                <View style={styles.header} >
+                                    <AntDesign style={{ margin: 20 }} name="facebook-square" color={'black'} size={22} />
+                                    <AntDesign style={{ margin: 20 }} name="instagram" color={'black'} size={22} />
+                                    <AntDesign style={{ margin: 20 }} name="twitter" color={'black'} size={22} />
+                                </View>
+                                <Text>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
+                            </View>
 
+                        </View>
                     </View>
-                </View>
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -84,14 +84,18 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     box: {
         height: '100%',
         width: '100%',
         alignItems: 'center',
         padding: 50,
-        margin: 30
+        margin: 30,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     text: {
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
     },
     login: {
         width: '160%',
-        height: '200%',
+        height: '500%',
         backgroundColor: '#e5eae7',
         marginTop: 80,
         borderWidth: 4,
@@ -148,5 +152,7 @@ const styles = StyleSheet.create({
 
     },
 })
+
+
 
 export default Login
