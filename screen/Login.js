@@ -1,7 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react'
-import { Alert, Button, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Txtinput from '../Components/Txtinput';
+import Btn from '../Components/Btn';
+
 
 const BASE_URL = 'https://api.dev.returnredirect.com'
 
@@ -20,7 +23,9 @@ function Login({ navigation }) {
             const response = await fetch(`${BASE_URL}/api/1.0/auth/login`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'device-id': 'd12121',
+                    'app-type': 'web'
                 },
                 body: JSON.stringify({
                     email,
@@ -45,60 +50,64 @@ function Login({ navigation }) {
             console.log(err);
         }
     }
+
+    const windowHeight = Dimensions.get('window').height;
     return (
-        <SafeAreaView >
+        <ScrollView   >
+
             <View style={styles.container}>
-                <ScrollView>
-                    <View style={styles.box}>
-                        <Text style={styles.text} >Company Logo</Text>
 
-                        <View style={styles.login}>
-                            <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 40 }} >Login</Text>
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                                <TextInput placeholder='Email' style={styles.textinput} value={email} onChangeText={setemail} />
-                                <TextInput placeholder='Password' style={styles.textinput} secureTextEntry={true} value={password} onChangeText={setPassword} />
-                            </View>
-                            <View>
-                                <Pressable style={styles.button} onPress={handleLogin} >
-                                    <Text style={{ color: 'white', fontSize: 15 }}>Login</Text>
-                                </Pressable>
-                                <Text style={{ textAlign: 'center', paddingTop: 10 }}>or Login with</Text>
-                                <View style={styles.header} >
-                                    <AntDesign style={{ margin: 20 }} name="facebook-square" color={'black'} size={22} />
-                                    <AntDesign style={{ margin: 20 }} name="instagram" color={'black'} size={22} />
-                                    <AntDesign style={{ margin: 20 }} name="twitter" color={'black'} size={22} />
-                                </View>
-                                <Text>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
-                            </View>
+                <View style={styles.top}>
+                    <Text style={styles.text} >Company Logo</Text>
+                </View>
+                <View style={styles.login}>
+                    <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 30, textAlign: 'center' }} >Login</Text>
+                    <View style={styles.form}>
 
-                        </View>
+                        <Txtinput value={email} onChangeText={setemail} >Email</Txtinput>
+
+                        <Txtinput value={password} onChangeText={setPassword} secureTextEntry={true} >Password</Txtinput>
+                        <Btn onPress={handleLogin}>Login</Btn>
                     </View>
-                </ScrollView>
+                    <View>
+
+                        <Text style={{ textAlign: 'center', paddingTop: 10 }}>or Login with</Text>
+                        <View style={styles.header} >
+                            <AntDesign style={{ margin: 20 }} name="facebook-square" color={'black'} size={50} />
+                            <AntDesign style={{ margin: 20 }} name="instagram" color={'black'} size={50} />
+                            <AntDesign style={{ margin: 20 }} name="twitter" color={'black'} size={50} />
+                        </View>
+                        <Text style={{ textAlign: 'center', marginTop: 20 }}>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
+                    </View>
+
+                </View>
+
+
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
-        height: '100%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 3,
+        backgroundColor: 'black'
     },
-    box: {
-        height: '100%',
-        width: '100%',
+    top: {
+        flex: 4,
         alignItems: 'center',
-        padding: 50,
-        margin: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+    },
+    form: {
+        display: 'flex',
+        rowGap: 30,
+        padding: 30,
+        marginTop: 40
     },
 
     text: {
+
         fontSize: 20,
         color: 'white',
         borderWidth: 2,
@@ -106,50 +115,23 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingLeft: 20,
         paddingRight: 20,
-        paddingBottom: 10
+        paddingBottom: 10,
+        margin: 40
 
     },
     login: {
-        width: '160%',
-        height: '500%',
-        backgroundColor: '#e5eae7',
-        marginTop: 80,
-        borderWidth: 4,
-        borderColor: 'black',
-        borderTopLeftRadius: 150,
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-evenly'
+        flex: 7,
+        backgroundColor: '#ececec',
+        borderTopStartRadius: 100,
+        textAlign: 'center'
 
 
     },
-    textinput: {
-        width: 250,
-        height: 50,
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: 'white',
-        backgroundColor: 'white',
-        // marginTop:50,
-        fontSize: 15,
-        color: 'black'
 
-    },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 15,
-        paddingHorizontal: 95,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'black',
-
     },
 })
 
