@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Category from '../Components/Category';
+import Card from '../Components/Card';
 
 
 
@@ -54,7 +55,7 @@ const Home = () => {
                                 keyExtractor={(item) => item}
                                 horizontal={true}
                             />
-                            {/* <Category/> */}
+                           
 
                         </View>
 
@@ -63,10 +64,16 @@ const Home = () => {
 
 
             </View>
-            <View styles={styles.bottom}>
-                <Text>sdfgn</Text>
+            <View style={styles.bottom}>
+               <Card/>
+               <Card/>
 
             </View>
+            {/* <View style={styles.bottom}>
+               <Card/>
+               <Card/>
+
+            </View> */}
 
         </ScrollView>
     )
@@ -79,8 +86,10 @@ const styles = StyleSheet.create({
 
     },
     bottom: {
-        flex: 3,
-        backgroundColor: 'white'
+        flex: 1,
+        backgroundColor: 'white',
+        flexDirection:'row',
+        margin:10
     },
     top: {
         flex: 1,
