@@ -5,16 +5,18 @@ import React from 'react'
 import Login from './screen/Login'
 import Signup from './screen/Signup'
 import Uiscreen from './screen/Uiscreen'
+import Home from './screen/Home'
 
 const Stack = createNativeStackNavigator()
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='ui' screenOptions={{headerShown:false}}>
+      <Stack.Navigator initialRouteName='home' screenOptions={{headerShown:false}}>
       <Stack.Screen name='ui' component={Uiscreen} />
         <Stack.Screen name='login' component={Login} />
         <Stack.Screen name='signup' component={Signup}/>
+        <Stack.Screen name='home' component={Home}/>
       </Stack.Navigator>
 
      </NavigationContainer>
