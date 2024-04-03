@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, ScrollView, Image, TextInput, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, FlatList, SafeAreaView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Category from '../Components/Category';
 import Card from '../Components/Card';
+import axios from 'axios';
+import { HomeTabNavigator } from '../App';
 
 
 
@@ -13,9 +15,28 @@ const categories = ['Cappuccino', 'Macchiato', 'Latte', 'Americano']
 const Home = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(null)
+    const [cards, setCards] = useState([])
+
+
+    useEffect(() => {
+        fetchData()
+
+    }, [])
+
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('https://api.sampleapis.com/coffee/hot')
+            const data = await response.json()
+            setCards(data)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
     return (
-        <ScrollView>
+        <>
             <View style={styles.container}>
                 <View style={styles.top}>
                     <View>
@@ -43,7 +64,7 @@ const Home = () => {
                     </View>
                     <Image source={frame} style={styles.frameImage} />
                     <View style={styles.whiteBckground}>
-                        <View style={{ marginTop: 100 }}>
+                        <View style={{ marginTop: 80 }}>
                             <FlatList data={categories}
                                 renderItem={({ item }) => (
                                     <Category
@@ -55,7 +76,7 @@ const Home = () => {
                                 keyExtractor={(item) => item}
                                 horizontal={true}
                             />
-                           
+
 
                         </View>
 
@@ -65,17 +86,16 @@ const Home = () => {
 
             </View>
             <View style={styles.bottom}>
-               <Card/>
-               <Card/>
-
+                <FlatList
+                    data={cards}
+                    renderItem={({ item }) => <Card title={item.title} image={item.image} />}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                />
             </View>
-            {/* <View style={styles.bottom}>
-               <Card/>
-               <Card/>
 
-            </View> */}
-
-        </ScrollView>
+            <HomeTabNavigator />
+        </>
     )
 }
 
@@ -88,16 +108,19 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         backgroundColor: 'white',
-        flexDirection:'row',
-        margin:10
+        flexDirection: 'row',
+        margin: 10,
+        marginTop: 100
     },
     top: {
-        flex: 1,
+
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 30,
-        margin: 20
+        marginBottom: 40,
+        // paddingHorizontal:40
+
     },
     search: {
         padding: 1,
@@ -107,7 +130,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems: 'baseline',
         justifyContent: 'space-between',
-        margin: 30
+        marginBottom: 30
     },
     slider: {
         padding: 18,
@@ -130,7 +153,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         width: '100%',
-        height: '50%', 
+        height: '50%',
         bottom: 0,
         zIndex: 0,
 

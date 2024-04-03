@@ -4,12 +4,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-const Card = () => {
+const Card = ({image,title}) => {
     return (
         <View style={styles.container}>
-            <Image source={require('../img/profile.jpg')} style={styles.coverImage} />
+            <Image source={{uri : image}} style={styles.coverImage} />
             <View style={styles.heading}>
-                <Text style={styles.title}>Cappucino</Text>
+                <Text style={styles.title}>{title}</Text>
                 <Text style={{ color: 'gray' }}>with choclate</Text>
             </View>
             <View style={styles.rate}>
@@ -18,7 +18,7 @@ const Card = () => {
             </View>
             <View style={styles.star}>
                 <AntDesign name="star" color={'orange'} size={12} />
-                <Text >4.8</Text>
+                <Text style={{fontSize:15,fontWeight:800,color:'black'}} >4.8</Text>
             </View>
         </View>
     )
@@ -29,7 +29,7 @@ export default Card
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 10,
+        marginTop: 30,
         position:'relative'
 
     },
