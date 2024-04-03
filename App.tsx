@@ -21,7 +21,9 @@ export function HomeTabNavigator() {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#bd9660',
-        tabBarInactiveTintColor: 'gray'
+        // tabBarInactiveTintColor: 'gray',
+        headerShown:false
+        
       }}
     >
       <Tab.Screen name='u' component={Home} options={{
@@ -34,9 +36,9 @@ export function HomeTabNavigator() {
         tabBarIcon: () => <Ionicons name='bag' color={'gray'} size={29} />
       }} />
 
-      {/* <Tab.Screen name='hm' component={Home} options={{
+      <Tab.Screen name='hm' component={Uiscreen} options={{
         tabBarIcon:()=><Octicons name='bell-fill' color={'gray'} size={29}/>
-      }}  /> */}
+      }}  />
 
     </Tab.Navigator>
   )
@@ -46,11 +48,11 @@ export function HomeTabNavigator() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='home' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='ui' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='ui' component={Uiscreen} />
         <Stack.Screen name='login' component={Login} />
         <Stack.Screen name='signup' component={Signup} />
-        <Stack.Screen name='home' component={Home} />
+        <Stack.Screen name='home' component={HomeTabNavigator} />
       </Stack.Navigator>
 
     </NavigationContainer>

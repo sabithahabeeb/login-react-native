@@ -35,6 +35,7 @@ function Login({ navigation }) {
             if (response) {
                 Alert.alert("login successfull")
                 console.log("login successfull");
+                navigation.navigate("home")
                 setemail('')
                 setPassword('')
                 // AsyncStorage.removeItem('showGetStarted').then(() => {

@@ -11,7 +11,7 @@ import { HomeTabNavigator } from '../App';
 
 const profile = require('../img/profile.jpg')
 const frame = require('../img/Frame.png')
-const categories = ['Cappuccino', 'Macchiato', 'Latte', 'Americano']
+const categories = ['Cappuccino', 'Machiato', 'Latte', 'Americano']
 const Home = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(null)
@@ -39,19 +39,19 @@ const Home = () => {
         <>
             <View style={styles.container}>
                 <View style={styles.top}>
-                    <View>
+                    <View style={{marginLeft:15}}>
                         <Text style={{ color: 'gray' }}>Location</Text>
                         <Text style={{ color: 'white', fontSize: 15 }}>Bilzen, Tanjungbalai  <AntDesign style={{ margin: 20 }} name="down" color={'white'} size={12} />
                         </Text>
                     </View>
-                    <View>
+                    <View style={{marginRight:15}}>
                         <Image source={profile} style={{ height: 70, width: 70, borderRadius: 10 }} />
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.search}>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{flex:1, flexDirection: 'row', alignItems: 'center' }}>
                             <AntDesign style={{ margin: 20 }} name="search1" color={'white'} size={22} />
                             <TextInput style={{ fontSize: 20 }} placeholder='search coffee' placeholderTextColor={'gray'}>
 
@@ -64,7 +64,7 @@ const Home = () => {
                     </View>
                     <Image source={frame} style={styles.frameImage} />
                     <View style={styles.whiteBckground}>
-                        <View style={{ marginTop: 80 }}>
+                        <View style={{ marginTop: 70 }}>
                             <FlatList data={categories}
                                 renderItem={({ item }) => (
                                     <Category
@@ -72,9 +72,14 @@ const Home = () => {
                                         selectedCategory={selectedCategory}
                                         setSelectedCategory={setSelectedCategory}
                                     />
-                                )}
+                                    
+                                )
+                                
+                            
+                            }
                                 keyExtractor={(item) => item}
                                 horizontal={true}
+                                showsHorizontalScrollIndicator={false}
                             />
 
 
@@ -94,7 +99,7 @@ const Home = () => {
                 />
             </View>
 
-            <HomeTabNavigator />
+            {/* <HomeTabNavigator /> */}
         </>
     )
 }
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         margin: 10,
-        marginTop: 100
+        marginTop: 120
     },
     top: {
 
@@ -123,9 +128,9 @@ const styles = StyleSheet.create({
 
     },
     search: {
-        padding: 1,
+       
         flexDirection: 'row',
-        width: '80%',
+        width: '90%',
         backgroundColor: '#4f4a46',
         borderRadius: 20,
         alignItems: 'baseline',
@@ -133,11 +138,11 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     slider: {
-        padding: 18,
+        padding: 16,
         backgroundColor: '#bd9660',
         borderRadius: 20,
         marginTop: 2,
-        marginEnd: 2
+        marginRight: 4
     },
     frameImage: {
         width: 300,
