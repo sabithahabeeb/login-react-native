@@ -84,8 +84,8 @@ focus:{
   backgroundColor:'#bd9660'
 },
 nofocus:{
-  width: 10, // Example width for unfocused state
-  height: 3, // Example height for unfocused state
+  width: 10, 
+    height: 3, 
   backgroundColor: 'gray',
 }
 })
