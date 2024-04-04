@@ -11,22 +11,28 @@ import { HomeTabNavigator } from '../App';
 
 const profile = require('../img/profile.jpg')
 const frame = require('../img/Frame.png')
-const categories = ['Cappuccino', 'Machiato', 'Latte', 'Americano']
+const categories = ['Hot', 'Cappuccino', 'Machiato', 'Latte', 'Americano']
 const Home = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [cards, setCards] = useState([])
+    const [search, setSearch] = useState('')
 
 
     useEffect(() => {
-        fetchData()
+        if (selectedCategory === 'Hot') {
+            fetchData('hot')
+        } else {
+            setCards([])
+        }
 
-    }, [])
+
+    }, [selectedCategory])
 
 
-    const fetchData = async () => {
+    const fetchData = async (category) => {
         try {
-            const response = await fetch('https://api.sampleapis.com/coffee/hot')
+            const response = await fetch(`https://api.sampleapis.com/coffee/${category}`)
             const data = await response.json()
             setCards(data)
         }
@@ -35,25 +41,31 @@ const Home = () => {
         }
     }
 
+    const serchCard = (item) => {
+        return item.title.toLowerCase().includes(search.toLowerCase())
+
+    }
+
     return (
         <>
             <View style={styles.container}>
+                
                 <View style={styles.top}>
-                    <View style={{marginLeft:15}}>
+                    <View style={{ marginLeft: 15 }}>
                         <Text style={{ color: 'gray' }}>Location</Text>
                         <Text style={{ color: 'white', fontSize: 15 }}>Bilzen, Tanjungbalai  <AntDesign style={{ margin: 20 }} name="down" color={'white'} size={12} />
                         </Text>
                     </View>
-                    <View style={{marginRight:15}}>
+                    <View style={{ marginRight: 15 }}>
                         <Image source={profile} style={{ height: 70, width: 70, borderRadius: 10 }} />
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.search}>
 
-                        <View style={{flex:1, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                             <AntDesign style={{ margin: 20 }} name="search1" color={'white'} size={22} />
-                            <TextInput style={{ fontSize: 20 }} placeholder='search coffee' placeholderTextColor={'gray'}>
+                            <TextInput style={{ fontSize: 20, color: 'white' }} placeholder='search coffee' placeholderTextColor={'gray'} onChangeText={setSearch} value={search}>
 
                             </TextInput>
                         </View>
@@ -72,11 +84,11 @@ const Home = () => {
                                         selectedCategory={selectedCategory}
                                         setSelectedCategory={setSelectedCategory}
                                     />
-                                    
+
                                 )
-                                
-                            
-                            }
+
+
+                                }
                                 keyExtractor={(item) => item}
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
@@ -92,8 +104,8 @@ const Home = () => {
             </View>
             <View style={styles.bottom}>
                 <FlatList
-                    data={cards}
-                    renderItem={({ item }) => <Card title={item.title} image={item.image} />}
+                    data={cards.filter(serchCard)}
+                    renderItem={({ item }) => <Card title={item.title} image={item.image} details={item.ingredients[0]} />}
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
                 />
@@ -112,9 +124,11 @@ const styles = StyleSheet.create({
     },
     bottom: {
         flex: 1,
+        justifyContent:'center',
+        alignItems:'center',
         backgroundColor: 'white',
         flexDirection: 'row',
-        margin: 10,
+        margin: 5,
         marginTop: 120
     },
     top: {
@@ -128,14 +142,14 @@ const styles = StyleSheet.create({
 
     },
     search: {
-       
+
         flexDirection: 'row',
         width: '90%',
         backgroundColor: '#4f4a46',
         borderRadius: 20,
         alignItems: 'baseline',
         justifyContent: 'space-between',
-        marginBottom: 30
+        marginBottom: 20
     },
     slider: {
         padding: 16,
@@ -150,7 +164,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         top: -80,
         zIndex: 1,
-        marginTop: 40
+        marginTop: 50
 
     },
     whiteBckground: {
