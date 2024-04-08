@@ -14,6 +14,7 @@ import Screen1 from './Components/Screen1'
 import Screen2 from './Components/Screen2'
 import Screen3 from './Components/Screen3'
 import { StyleSheet, View } from 'react-native'
+// import 'react-native-reanimated';
 
 
 
@@ -64,12 +65,15 @@ export function HomeTabNavigator() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='scree1' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='scree3' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='ui' component={Uiscreen} />
         <Stack.Screen name='login' component={Login} />
         <Stack.Screen name='signup' component={Signup} />
         <Stack.Screen name='home' component={HomeTabNavigator} />
         <Stack.Screen name='scree1' component={Screen1} />
+        <Stack.Screen name='scree2' component={Screen2} />
+        <Stack.Screen name='scree3' component={Screen3} />
+
 
       </Stack.Navigator>
 
