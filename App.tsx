@@ -66,7 +66,7 @@ export function HomeTabNavigator() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='paper' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
         <Stack.Screen name='ui' component={Uiscreen} />
         <Stack.Screen name='login' component={Login} />
         <Stack.Screen name='signup' component={Signup} />

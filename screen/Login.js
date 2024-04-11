@@ -4,16 +4,19 @@ import { Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-nat
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Txtinput from '../Components/Txtinput';
 import Btn from '../Components/Btn';
-
+import {useForm,Controller} from 'react-hook-form'
 
 const BASE_URL = 'https://api.dev.returnredirect.com'
 
 function Login({ navigation }) {
-    const [email, setemail] = useState('')
-    const [password, setPassword] = useState('')
-
+    // const [email, setemail] = useState('')
+    // const [password, setPassword] = useState('')
+    const {handleSubmit,control,formState:{errors}} = useForm()
 
     const handleLogin = async () => {
+
+       
+
         if (!email || !password) {
             Alert.alert("Please fill in all fields");
             return;
@@ -65,10 +68,10 @@ function Login({ navigation }) {
                     <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 30, textAlign: 'center' }} >Login</Text>
                     <View style={styles.form}>
 
-                        <Txtinput value={email} onChangeText={setemail} >Email</Txtinput>
+                        <Txtinput placeholder='Email' name= "Email" control={control} rules={{required : 'Email is required'}}/>
 
-                        <Txtinput value={password} onChangeText={setPassword} secureTextEntry={true} >Password</Txtinput>
-                        <Btn onPress={handleLogin}>Login</Btn>
+                        <Txtinput  secureTextEntry={true} placeholder='Password' control={control} name="Password"  rules={{required : 'Password is required', minLength: { value : 3, message:'Password should be minimum 3 charecters long'}}}/>
+                        <Btn onPress={handleSubmit(handleLogin)}>Login</Btn>
                     </View>
                     <View>
 
