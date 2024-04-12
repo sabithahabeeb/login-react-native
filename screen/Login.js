@@ -13,11 +13,11 @@ function Login({ navigation }) {
     // const [password, setPassword] = useState('')
     const {handleSubmit,control,formState:{errors}} = useForm()
 
-    const handleLogin = async () => {
+    const handleLogin = async (data) => {
 
        
 
-        if (!email || !password) {
+        if (!data.email || !data.password) {
             Alert.alert("Please fill in all fields");
             return;
         }
@@ -31,16 +31,16 @@ function Login({ navigation }) {
                     'app-type': 'web'
                 },
                 body: JSON.stringify({
-                    email,
-                    password
+                   data
                 })
             })
             if (response) {
                 Alert.alert("login successfull")
                 console.log("login successfull");
                 navigation.navigate("home")
-                setemail('')
-                setPassword('')
+                Object.keys(errors).forEach(field=>{setError(field,'')})
+                // setemail('')
+                // setPassword('')
                 // AsyncStorage.removeItem('showGetStarted').then(() => {
                 //     console.log("item removed");
                 //     navigation.navigate('ui')
@@ -68,9 +68,9 @@ function Login({ navigation }) {
                     <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 30, textAlign: 'center' }} >Login</Text>
                     <View style={styles.form}>
 
-                        <Txtinput placeholder='Email' name= "Email" control={control} rules={{required : 'Email is required'}}/>
+                        <Txtinput placeholder='Email' name= "email" control={control} rules={{required : 'Email is required'}}/>
 
-                        <Txtinput  secureTextEntry={true} placeholder='Password' control={control} name="Password"  rules={{required : 'Password is required', minLength: { value : 3, message:'Password should be minimum 3 charecters long'}}}/>
+                        <Txtinput  secureTextEntry={true} placeholder='Password' control={control} name="password"  rules={{required : 'Password is required', minLength: { value : 3, message:'Password should be minimum 3 charecters long'}}}/>
                         <Btn onPress={handleSubmit(handleLogin)}>Login</Btn>
                     </View>
                     <View>

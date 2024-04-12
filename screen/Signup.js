@@ -4,27 +4,31 @@ import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Txtinput from '../Components/Txtinput';
 import Btn from '../Components/Btn';
+import { useForm } from 'react-hook-form';
 
 const BASE_URL = 'https://api.dev.returnredirect.com'
 
-
+const EMAIL_REG = /^[a-zA-Z0-9. !#$%&'*+/=?^_`{|}-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$/
 
 function Signup({ navigation }) {
-    const [name, setname] = useState('')
-    const [email, setemail] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPasswrod, setConfirmPassword] = useState('')
+    // const [name, setname] = useState('')
+    // const [email, setemail] = useState('')
+    // const [phoneNumber, setPhoneNumber] = useState('')
+    // const [password, setPassword] = useState('')
+    // const [confirmPasswrod, setConfirmPassword] = useState('')
 
-    const handleSignup = async () => {
-        if (!name || !email || !phoneNumber || !password || !confirmPasswrod) {
+    const {control,handleSubmit,watch} = useForm()
+    const pwd = watch('password')
+
+    const handleSignup = async (data) => {
+        if (!data.name || !data.email || !data.phoneNumber || !data.password || !data.confirmPassword) {
             Alert.alert("Please fill in all fields");
             return;
         }
-        if (password !== confirmPasswrod) {
-            Alert.alert("Passwords do not match");
-            return;
-        }
+        // if (password !== confirmPasswrod) {
+        //     Alert.alert("Passwords do not match");
+        //     return;
+        // }
         try {
             const response = await fetch(`${BASE_URL}/api/1.0/auth/signup`, {
                 method: 'POST',
@@ -34,11 +38,7 @@ function Signup({ navigation }) {
                     'app-type': 'web'
                 },
                 body: JSON.stringify({
-                    name,
-                    email,
-                    phoneNumber,
-                    password,
-                    confirmPasswrod
+                   data
                 })
             })
             const data = await response.json()
@@ -68,14 +68,67 @@ function Signup({ navigation }) {
                 <View style={styles.login}>
 
                     <View style={styles.form}>
-                        <Txtinput value={name} onChangeText={setname} >Name</Txtinput>
+                        <Txtinput
+                         name="name" 
+                         control={control}
+                          placeholder="Username"
+                          rules={{
+                            required: 'Username is required',
+                            minLength:{
+                                value: 3,
+                                message: 'Username should be at least 3 charecters long'
+                            },
+                            maxLength:{
+                                value:24,
+                                message: 'USername should be max 24 charecters long'
+                            }
+                          }}
+                           />
 
-                        <Txtinput value={email} onChangeText={setemail} >Email</Txtinput>
-                        <Txtinput value={phoneNumber} onChangeText={setPhoneNumber} >Phone Number</Txtinput>
-                        <Txtinput value={password} onChangeText={setPassword} secureTextEntry={true} >Password</Txtinput>
-                        <Txtinput value={confirmPasswrod} onChangeText={setConfirmPassword} secureTextEntry={true} >Confirm Password</Txtinput>
+                        <Txtinput 
+                        name="email" 
+                        control={control} 
+                        placeholder="Email"
+                        rules={{
+                            required: 'Email is Required',
+                            pattern: {value:EMAIL_REG,message:'Email is Invalid'}
+                        }}
+                        
+                        />
+                        <Txtinput name="phoneNumber" 
+                        control={control}
+                         placeholder="PhoneNumber"
+                         rules={{
+                            required: 'PhoneNumber is required',
+                            minLength:{
+                                value: 10,
+                                message: 'PhoneNumber should be at least 10 charecters long'
+                            }
+                          }}
+                          />
+                        <Txtinput 
+                        name="password"
+                         control={control} 
+                         placeholder="Password"
+                          secureTextEntry={true} 
+                          rules={{
+                            required: 'Password is required',
+                            minLength:{
+                                value: 6,
+                                message: 'Password should be at least 6 charecters long'
+                            }
+                          }}
+                          />
+                        <Txtinput  name="confirmPassword"
+                         control={control}
+                          placeholder="ConfirmPassword"
+                           secureTextEntry={true} 
+                           rules={{
+                            validate: value=>value === pwd || 'Password do not match'
+                           }}
+                           />
 
-                        <Btn onPress={handleSignup}>Sign Up</Btn>
+                        <Btn onPress={handleSubmit(handleSignup)}>Sign Up</Btn>
                     </View>
                     <View>
 
