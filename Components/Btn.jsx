@@ -4,7 +4,7 @@ import React from 'react'
 const Btn = ({children,onPress}) => {
   return (
     <Pressable onPress={onPress} style={styles.button}>
-    <Text style={{color:'white', fontSize:25}} >
+    <Text style={{color:'white', fontSize:30,fontWeight:'bold'}} >
         {children}
     </Text>
     
@@ -15,12 +15,13 @@ const Btn = ({children,onPress}) => {
 const styles = StyleSheet.create({
     button:{
         height: 70,
-        backgroundColor: 'black',
+        backgroundColor: 'orange',
         borderRadius: 10,
-        borderTopEndRadius: 0,
+        fontWeight:'bold',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding:10
     }
 })
 

@@ -1,94 +1,67 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react'
-import { Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Dimensions, ImageBackground, ScrollView, StyleSheet, Text, View,Image } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Txtinput from '../Components/Txtinput';
 import Btn from '../Components/Btn';
-import {useForm,Controller} from 'react-hook-form'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase';
 
-const BASE_URL = 'https://api.dev.returnredirect.com'
 
 function Login({ navigation }) {
-    // const [email, setemail] = useState('')
-    // const [password, setPassword] = useState('')
-    const {handleSubmit,control,formState:{errors}} = useForm()
+  
 
-    const handleLogin = async (data) => {
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
 
-       
+    const handleSubmit = async ()=>{
+        if(email && password ){
+            try{
+                await signInWithEmailAndPassword(auth, email,password)
+            //    Alert.alert("Account created")
+               navigation.navigate("home")
+            
+               setPassword('')
+               setEmail('')
 
-        if (!data.email || !data.password) {
-            Alert.alert("Please fill in all fields");
-            return;
-        }
-
-        try {
-            const response = await fetch(`${BASE_URL}/api/1.0/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'device-id': 'd12121',
-                    'app-type': 'web'
-                },
-                body: JSON.stringify({
-                   data
-                })
-            })
-            if (response) {
-                Alert.alert("login successfull")
-                console.log("login successfull");
-                navigation.navigate("home")
-                Object.keys(errors).forEach(field=>{setError(field,'')})
-                // setemail('')
-                // setPassword('')
-                // AsyncStorage.removeItem('showGetStarted').then(() => {
-                //     console.log("item removed");
-                //     navigation.navigate('ui')
-                // }).catch(err => {
-                //     console.log(err);
-                // })
-            } else {
-                console.log("login faild");
+            }catch(err){
+              console.log(`got error,${err}`)
             }
-        } catch (err) {
-            console.log(err);
         }
     }
-
+   
     const windowHeight = Dimensions.get('window').height;
     return (
-        <ScrollView   >
-
-            <View style={styles.container}>
-
-                <View style={styles.top}>
-                    <Text style={styles.text} >Company Logo</Text>
-                </View>
-                <View style={styles.login}>
-                    <Text style={{ fontSize: 40, color: 'black', fontWeight: 600, marginTop: 30, textAlign: 'center' }} >Login</Text>
-                    <View style={styles.form}>
-
-                        <Txtinput placeholder='Email' name= "email" control={control} rules={{required : 'Email is required'}}/>
-
-                        <Txtinput  secureTextEntry={true} placeholder='Password' control={control} name="password"  rules={{required : 'Password is required', minLength: { value : 3, message:'Password should be minimum 3 charecters long'}}}/>
-                        <Btn onPress={handleSubmit(handleLogin)}>Login</Btn>
+      <ImageBackground  source={require('../img/background.webp')} style={{flex:1}} >
+            <ScrollView   >
+    
+                <View >
+    
+                    <View style={styles.top}>
+                        <Image source={require('../img/loged.png')} style={styles.image}/>
+                       
                     </View>
-                    <View>
-
-                        <Text style={{ textAlign: 'center', paddingTop: 10 }}>or Login with</Text>
-                        <View style={styles.header} >
-                            <AntDesign style={{ margin: 20 }} name="facebook-square" color={'black'} size={50} />
-                            <AntDesign style={{ margin: 20 }} name="instagram" color={'black'} size={50} />
-                            <AntDesign style={{ margin: 20 }} name="twitter" color={'black'} size={50} />
+                    <View style={styles.login}>
+                        <Text style={{ fontSize: 40, color: 'white', fontWeight: 800, marginTop: 30, textAlign: 'center' }} >Login</Text>
+                        <View style={styles.form}>
+    
+                            <Txtinput placeholder='Email'  value={email}
+                              onChangeText={value =>setEmail(value)}/>
+    
+                            <Txtinput  secureTextEntry={true} placeholder='Password'  value={password}
+                              onChangeText={value =>setPassword(value)}/>
+                            <Btn onPress={handleSubmit}  >Login</Btn>
                         </View>
-                        <Text style={{ textAlign: 'center', marginTop: 20 }}>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
+                        <View>
+                            <Text style={{ textAlign: 'center', marginTop: 20 }}>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
+                        </View>
+    
                     </View>
-
+    
+    
                 </View>
-
-
-            </View>
-        </ScrollView>
+            </ScrollView>
+      </ImageBackground>
     )
 }
 
@@ -96,7 +69,7 @@ function Login({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 3,
-        backgroundColor: 'black'
+       
     },
     top: {
         flex: 4,
@@ -125,7 +98,7 @@ const styles = StyleSheet.create({
     },
     login: {
         flex: 7,
-        backgroundColor: '#ececec',
+        // backgroundColor: '#ececec',
         borderTopStartRadius: 100,
         textAlign: 'center'
 
@@ -137,6 +110,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
+   
+    image:{
+        width: 300,
+        height: 250,
+        resizeMode: 'contain',
+    }
 })
 
 
