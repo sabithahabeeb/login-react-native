@@ -23,9 +23,11 @@ function Login({ navigation }) {
             
                setPassword('')
                setEmail('')
+               Alert.alert("Login succesfull")
 
             }catch(err){
               console.log(`got error,${err}`)
+              Alert.alert("Invalid Password ")
             }
         }
     }
@@ -53,7 +55,7 @@ function Login({ navigation }) {
                             <Btn onPress={handleSubmit}  >Login</Btn>
                         </View>
                         <View>
-                            <Text style={{ textAlign: 'center', marginTop: 20 }}>Don't have any account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
+                            <Text style={{ textAlign: 'center', marginTop: 20 }}>Don't have any account?<Text style={{ textDecorationLine: 'underline',color:'orange' }} onPress={() => navigation.navigate("signup")}>signup</Text></Text>
                         </View>
     
                     </View>

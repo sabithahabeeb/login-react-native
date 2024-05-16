@@ -26,7 +26,8 @@ function Signup({ navigation }) {
                setEmail('')
 
             }catch(err){
-              console.log();(`got error,${err}`)
+              console.log(`got error,${err}`)
+              Alert.alert("Email already exist")
             }
         }
     }
@@ -69,7 +70,7 @@ function Signup({ navigation }) {
                         </View>
                         <View>
     
-                            <Text style={{ textAlign: 'center', marginTop: 10 }}>You have an account?<Text style={{ textDecorationLine: 'underline' }} onPress={() => navigation.navigate("login")}>Login</Text></Text>
+                            <Text style={{ textAlign: 'center', marginTop: 10 }}>You have an account?<Text style={{ textDecorationLine: 'underline' ,color:'orange'}} onPress={() => navigation.navigate("login")}>Login</Text></Text>
                         </View>
     
                     </View>
