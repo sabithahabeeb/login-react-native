@@ -7,6 +7,7 @@ import Uiscreen from './screen/Uiscreen'
 import { StyleSheet, View } from 'react-native'
 import Home from './screen/Home'
 import UseAuth from './hooks/UseAuth'
+import Chat from './screen/Chat'
 
 const Stack = createNativeStackNavigator()
 // const {user} = UseAuth()
@@ -14,12 +15,15 @@ const Stack = createNativeStackNavigator()
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='ui' screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='ui' component={Uiscreen} />
-        <Stack.Screen name='login' component={Login} />
-        <Stack.Screen name='signup' component={Signup} />
-        <Stack.Screen name='home' component={Home} />
-  
+      <Stack.Navigator initialRouteName='ui' >
+        <Stack.Screen name='ui' component={Uiscreen} options={{ headerShown: false }}  />
+        <Stack.Screen name='login' component={Login} options={{ headerShown: false }}/>
+        <Stack.Screen name='signup' component={Signup}options={{ headerShown: false }} />
+        <Stack.Screen name='home' component={Home} options={{
+          title:'whats app'
+        }} />
+        <Stack.Screen name='chat' component={Chat} />
+
        
 
 

@@ -6,6 +6,7 @@ import Txtinput from '../Components/Txtinput';
 import Btn from '../Components/Btn';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import{getDatabase,ref,set} from 'firebase/database'
 
 // import auth from '@react-native-firebase/auth';
 
@@ -18,17 +19,29 @@ function Signup({ navigation }) {
     const handleSubmit = async ()=>{
         if(email && password ){
             try{
-              await createUserWithEmailAndPassword(auth, email,password)
+             const userCredential= await createUserWithEmailAndPassword(auth, email,password)
+              const userId = userCredential.user.uid
+            //   store user data in the firebase realtime Database
+            const database = getDatabase()
+            await set(ref(database, 'users/'+ userId),{
+                username: name,
+                email: email
+            })
+            
             //    Alert.alert("Account created")
                navigation.navigate("login")
                setName('')
                setPassword('')
                setEmail('')
 
-            }catch(err){
-              console.log(`got error,${err}`)
-              Alert.alert("Email already exist")
-            }
+            }catch (err) {
+                console.log(`got error, ${err}`);
+                if (err.code === 'auth/email-already-in-use') {
+                  Alert.alert('Email already exists');
+                } else {
+                  Alert.alert('Error creating account', err.message);
+                }
+              }
         }
     }
     return (

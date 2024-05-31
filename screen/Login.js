@@ -7,7 +7,6 @@ import Btn from '../Components/Btn';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
-
 function Login({ navigation }) {
   
 
@@ -17,6 +16,7 @@ function Login({ navigation }) {
     const handleSubmit = async ()=>{
         if(email && password ){
             try{
+                
                 await signInWithEmailAndPassword(auth, email,password)
             //    Alert.alert("Account created")
                navigation.navigate("home")
