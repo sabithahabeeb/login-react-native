@@ -16,7 +16,7 @@ const Chat = ({ route, selectedUser ,username}) => {
       const myChatroom = await fetchMessages()
       setMessages(renderMesseges(myChatroom.messages))
     }
-    loadData()
+   
 
     const database = getDatabase()
     const chatroomRef = ref(database,`chatrooms/${chatRoomId}`)
